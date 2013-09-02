@@ -1,32 +1,17 @@
-#include "HelloWorldScene.h"
+#include "GameScreen.h"
 
 USING_NS_CC;
 
-Scene* HelloWorld::scene()
-{
-    // 'scene' is an autorelease object
-    Scene *scene = Scene::create();
-    
-    // 'layer' is an autorelease object
-    HelloWorld *layer = HelloWorld::create();
-
-    // add layer as a child to scene
-    scene->addChild(layer);
-
-    // return the scene
-    return scene;
-}
-
 // on "init" you need to initialize your instance
-bool HelloWorld::init()
+bool GameScreen::init()
 {
     //////////////////////////////
     // 1. super init first
     if ( !Layer::init() )
-    {
-        return false;
-    }
-    
+	{
+	    return false;
+	}
+
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Point origin = Director::getInstance()->getVisibleOrigin();
 
@@ -36,12 +21,12 @@ bool HelloWorld::init()
 
     // add a "close" icon to exit the progress. it's an autorelease object
     MenuItemImage *closeItem = MenuItemImage::create(
-                                        "CloseNormal.png",
-                                        "CloseSelected.png",
-                                        CC_CALLBACK_1(HelloWorld::menuCloseCallback, this));
-    
-	closeItem->setPosition(Point(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
-                                origin.y + closeItem->getContentSize().height/2));
+						     "CloseNormal.png",
+						     "CloseSelected.png",
+						     CC_CALLBACK_1(GameScreen::menuCloseCallback, this));
+
+    closeItem->setPosition(Point(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
+				 origin.y + closeItem->getContentSize().height/2));
 
     // create menu, it's an autorelease object
     Menu* menu = Menu::create(closeItem, NULL);
@@ -53,30 +38,30 @@ bool HelloWorld::init()
 
     // add a label shows "Hello World"
     // create and initialize a label
-    
+
     LabelTTF* label = LabelTTF::create("Hello World", "Arial", 24);
-    
+
     // position the label on the center of the screen
     label->setPosition(Point(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - label->getContentSize().height));
+			     origin.y + visibleSize.height - label->getContentSize().height));
 
     // add the label as a child to this layer
     this->addChild(label, 1);
 
-    // add "HelloWorld" splash screen"
-    Sprite* sprite = Sprite::create("HelloWorld.png");
+    // add "GameScreen" splash screen"
+    Sprite* sprite = Sprite::create("GameScreen.png");
 
     // position the sprite on the center of the screen
     sprite->setPosition(Point(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
 
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
-    
+
     return true;
 }
 
 
-void HelloWorld::menuCloseCallback(Object* pSender)
+void GameScreen::menuCloseCallback(Object* pSender)
 {
     Director::getInstance()->end();
 

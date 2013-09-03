@@ -5,9 +5,17 @@
 
 class GameScreen : public cocos2d::Layer
 {
-public:
+ private:
+    enum
+    {
+	kTagTileMap = 1,
+    };
+
+ public:
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool init();
+
+    /* virtual void ccTouchesMoved(Set * touches, Event * event); */
 
     // a selector callback
     void menuCloseCallback(Object* pSender);

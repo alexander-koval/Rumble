@@ -5,67 +5,78 @@ USING_NS_CC;
 // on "init" you need to initialize your instance
 bool GameScreen::init()
 {
-    //////////////////////////////
-    // 1. super init first
-    if ( !Layer::init() )
-	{
-	    return false;
-	}
+  //////////////////////////////
+  // 1. super init first
+  if ( !Layer::init() )
+    {
+      return false;
+    }
 
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Point origin = Director::getInstance()->getVisibleOrigin();
+  Size visibleSize = Director::getInstance()->getVisibleSize();
+  Point origin = Director::getInstance()->getVisibleOrigin();
 
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
+  /////////////////////////////
+  // 2. add a menu item with "X" image, which is clicked to quit the program
+  //    you may modify it.
 
-    // add a "close" icon to exit the progress. it's an autorelease object
-    MenuItemImage *closeItem = MenuItemImage::create(
-						     "CloseNormal.png",
-						     "CloseSelected.png",
-						     CC_CALLBACK_1(GameScreen::menuCloseCallback, this));
+  // add a "close" icon to exit the progress. it's an autorelease object
+  MenuItemImage *closeItem = MenuItemImage::create(
+						   "CloseNormal.png",
+						   "CloseSelected.png",
+						   CC_CALLBACK_1(GameScreen::menuCloseCallback, this));
 
-    closeItem->setPosition(Point(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
-				 origin.y + closeItem->getContentSize().height/2));
+  closeItem->setPosition(Point(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
+			       origin.y + closeItem->getContentSize().height/2));
 
-    // create menu, it's an autorelease object
-    Menu* menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Point::ZERO);
-    this->addChild(menu, 1);
+  TMXTiledMap * map = TMXTiledMap::create("tilemaps/testmap.tmx");
+  addChild(map, 0, kTagTileMap);
 
-    /////////////////////////////
-    // 3. add your codes below...
+  Size CC_UNUSED s = map->getContentSize();
+  CCLOG("ContentSize: %f, %f", s.width, s.height);
 
-    // add a label shows "Hello World"
-    // create and initialize a label
+  // Array * pChildArray = map->getChildren();
+  // SpriteBatchNode * child = NULL;
+  // Object * pObject = NULL;
+  // CCARRAY_FOREACH(pChildArray, pObject)
+  //   {
+  //     child = static_cast<SpriteBatchNode *>(pObject);
+  //     if (!child) break;
+  //     child->getTexture()->setAntiAliasTexParameters();
+  //   }
+  // // map->runAction(ScaleBy::create(2, 0.1f));
+  // //    TMXLayer * layer = map->getLayer("background");
 
-    LabelTTF* label = LabelTTF::create("Hello World", "Arial", 24);
+  float x, y, z;
+  map->setAnchorPoint(Point(0.5f, 0.5f));
+  map->getCamera()->getEyeXYZ(&x, &y, &z);
+  // map->getCamera()->setEyeXYZ(x + s.height / 2, y, z - s.width / 2);
 
-    // position the label on the center of the screen
-    label->setPosition(Point(origin.x + visibleSize.width/2,
-			     origin.y + visibleSize.height - label->getContentSize().height));
+  map->setPosition(Point(0, 0));
 
-    // add the label as a child to this layer
-    this->addChild(label, 1);
+  CCLOG("X, Y, Z Coordinates: %f, %f, %f", x, y, z);
+  Size CC_UNUSED bounds = map->getBoundingBox().size;
+  CCLOG("Bounding Box Size: %f, %f", bounds.width, bounds.height);
 
-    // add "GameScreen" splash screen"
-    Sprite* sprite = Sprite::create("GameScreen.png");
-
-    // position the sprite on the center of the screen
-    sprite->setPosition(Point(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-    // add the sprite as a child to this layer
-    this->addChild(sprite, 0);
-
-    return true;
+  return true;
 }
+
+// void GameScreen::ccTouchesMoved(Set * touches, Event * event)
+// {
+//   Touch * touch = static_cast<Touch *>(touches->anyObject());
+//   Point diff = touch->getDelta();
+//   Node * node = getChildByTag(kTagTileMap);
+//   Point current = node->getPosition();
+//   node->setPosition(current + diff);
+// }
 
 
 void GameScreen::menuCloseCallback(Object* pSender)
 {
-    Director::getInstance()->end();
+  Director::getInstance()->end();
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    exit(0);
+  exit(0);
 #endif
 }
+
+#define COCOS2D_DEBUG 1

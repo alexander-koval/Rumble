@@ -2,8 +2,9 @@
 #define __GAMESCENE_H__
 
 #include "cocos2d.h"
+USING_NS_CC;
 
-class GameScreen : public cocos2d::Layer
+class GameScreen : public Layer
 {
  private:
     enum
@@ -15,7 +16,9 @@ class GameScreen : public cocos2d::Layer
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool init();
 
-    /* virtual void ccTouchesMoved(Set * touches, Event * event); */
+    virtual void ccTouchesBegan(Set * touches, Event * event);
+
+    virtual void ccTouchesMoved(Set * touches, Event * event);
 
     // a selector callback
     void menuCloseCallback(Object* pSender);

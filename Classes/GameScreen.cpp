@@ -60,14 +60,20 @@ bool GameScreen::init()
   return true;
 }
 
-// void GameScreen::ccTouchesMoved(Set * touches, Event * event)
-// {
-//   Touch * touch = static_cast<Touch *>(touches->anyObject());
-//   Point diff = touch->getDelta();
-//   Node * node = getChildByTag(kTagTileMap);
-//   Point current = node->getPosition();
-//   node->setPosition(current + diff);
-// }
+void GameScreen::ccTouchesBegan(Set * touches, Event * event)
+{
+  CCLOG("TOUCH BEGAN");
+}
+
+void GameScreen::ccTouchesMoved(Set * touches, Event * event)
+{
+  CCLOG("TOUCH MOVING");
+  Touch * touch = static_cast<Touch *>(touches->anyObject());
+  Point diff = touch->getDelta();
+  Node * node = getChildByTag(kTagTileMap);
+  Point current = node->getPosition();
+  node->setPosition(current + diff);
+}
 
 
 void GameScreen::menuCloseCallback(Object* pSender)

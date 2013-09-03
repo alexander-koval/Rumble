@@ -2,6 +2,8 @@ EXECUTABLE = Rumble
 
 INCLUDES = -I.. -I../Classes
 
+DEBUG=1
+
 SOURCES = main.cpp \
         ../Classes/AppDelegate.cpp \
         ../Classes/GameScreen.cpp

@@ -28,7 +28,7 @@ bool GameScreen::init()
     closeItem->setPosition(Point(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
 				 origin.y + closeItem->getContentSize().height/2));
 
-    TMXTiledMap * map = TMXTiledMap::create("tilemaps/testmap.tmx");
+    map = TMXTiledMap::create("tilemaps/testmap.tmx");
     addChild(map, 0, kTagTileMap);
 
     Size CC_UNUSED s = map->getContentSize();
@@ -38,26 +38,46 @@ bool GameScreen::init()
     // SpriteBatchNode * child = NULL;
     // Object * pObject = NULL;
     // CCARRAY_FOREACH(pChildArray, pObject)
-    //   {
-    //     child = static_cast<SpriteBatchNode *>(pObject);
-    //     if (!child) break;
-    //     child->getTexture()->setAntiAliasTexParameters();
-    //   }
+    // 	{
+    // 	    child = static_cast<SpriteBatchNode *>(pObject);
+    // 	    if (!child) break;
+    // 	    child->getTexture()->setAntiAliasTexParameters();
+    // 	}
     // // map->runAction(ScaleBy::create(2, 0.1f));
     // //    TMXLayer * layer = map->getLayer("background");
 
+    Camera * camera = map->getCamera();
+
     float x, y, z;
-    map->setAnchorPoint(Point(0.5f, 0.5f));
+    map->setAnchorPoint(Point(0, 1));
     map->getCamera()->getEyeXYZ(&x, &y, &z);
     // map->getCamera()->setEyeXYZ(x + s.height / 2, y, z - s.width / 2);
+    map->getLayer("collide")->setVisible(false);
 
-    map->setPosition(Point(0, 0));
+    TMXObjectGroup * group = map->getObjectGroup("trees");
+    Array * objects = group->getObjects();
+
+    CCDictionary * dict = NULL;
+    CCObject * pObj = NULL;
+
+    CCARRAY_FOREACH(objects, pObj)
+	{
+	    dict = static_cast<CCDictionary *>(pObj);
+	    if (!dict) break;
+	    String * obj = static_cast<String *>(dict->objectForKey("gid"));
+	    CCLOG("NAME: %s", obj);
+	}
+
+    map->setPosition(Point(0, 0 + visibleSize.height));
+
 
     CCLOG("X, Y, Z Coordinates: %f, %f, %f", x, y, z);
     Size CC_UNUSED bounds = map->getBoundingBox().size;
     CCLOG("Bounding Box Size: %f, %f", bounds.width, bounds.height);
 
     setTouchEnabled(true);
+
+
     // setTouchMode(Touch::DispatchMode::ONE_BY_ONE);
 
     // CCLOG("INITIALIZATION COMPLETE. TouchMode: %s", Layer::getTouchMode());
@@ -73,11 +93,21 @@ bool GameScreen::init()
 void GameScreen::ccTouchesMoved(Set * touches, Event * event)
 {
     CCLOG("TOUCHES MOVING");
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Size CC_UNUSED bounds = map->getBoundingBox().size;
     Touch * touch = static_cast<Touch *>(touches->anyObject());
     Point diff = touch->getDelta();
     Node * node = getChildByTag(kTagTileMap);
     Point current = node->getPosition();
-    node->setPosition(current + diff);
+    Point next = current + diff;
+
+    if (next.x < 0 && next.y > visibleSize.height &&
+	next.x > -bounds.width && next.y < bounds.height - visibleSize.height)
+	{
+	    node->setPosition(current + diff);
+	}
+
+    CCLOG("X, Y Coordinates: %f, %f", current.x, current.y);
 }
 
 // bool GameScreen::ccTouchBegan(Touch * touch, Event * event)

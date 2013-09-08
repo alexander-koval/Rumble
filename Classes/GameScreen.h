@@ -12,6 +12,8 @@ class GameScreen : public Layer
 	kTagTileMap = 1
     };
 
+    TMXTiledMap * map;
+
  public:
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool init();

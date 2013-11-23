@@ -2,9 +2,12 @@
 #define __GAMESCENE_H__
 
 #include "cocos2d.h"
+#include "tilemap_parallax_nodes/CCTMXTiledMap.h"
+#include "utils/FromTiledMap.h"
+
 USING_NS_CC;
 
-class GameScreen : public Layer
+class GameScreen : public CCLayer
 {
  private:
     enum
@@ -12,7 +15,7 @@ class GameScreen : public Layer
 	kTagTileMap = 1
     };
 
-    TMXTiledMap * map;
+    CCTMXTiledMap* map;
 
  public:
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
@@ -20,15 +23,14 @@ class GameScreen : public Layer
 
     /* virtual void ccTouchesBegan(Set * touches, Event * event); */
 
-    virtual void ccTouchesMoved(Set * touches, Event * event);
-
+    virtual void ccTouchesMoved(CCSet * touches, CCEvent * event);
+    
     /* virtual bool ccTouchBegan(Touch * touch, Event * event); */
     // a selector callback
-    void menuCloseCallback(Object* pSender);
+    void menuCloseCallback(CCObject* pSender);
 
     // implement the "static node()" method manually
     CREATE_FUNC(GameScreen);
-
 };
 
 #endif // __GAMESCENE_H__

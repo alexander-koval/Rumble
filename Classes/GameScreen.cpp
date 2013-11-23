@@ -7,72 +7,60 @@ bool GameScreen::init()
 {
     //////////////////////////////
     // 1. super init first
-    if ( !Layer::init() )
-	{
-	    return false;
-	}
+    if ( !CCLayer::init() )
+    {
+        return false;
+    }
 
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Point origin = Director::getInstance()->getVisibleOrigin();
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
-
-    // add a "close" icon to exit the progress. it's an autorelease object
-    MenuItemImage *closeItem = MenuItemImage::create(
-						     "CloseNormal.png",
-						     "CloseSelected.png",
-						     CC_CALLBACK_1(GameScreen::menuCloseCallback, this));
-
-    closeItem->setPosition(Point(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
-				 origin.y + closeItem->getContentSize().height/2));
-
-    map = TMXTiledMap::create("tilemaps/testmap.tmx");
+    map = FromTiledMap::parse("tilemaps/testmap.tmx");
+//    map = CCTMXTiledMap::create("tilemaps/testmap.tmx");
     addChild(map, 0, kTagTileMap);
 
-    Size CC_UNUSED s = map->getContentSize();
+    CCSize CC_UNUSED s = map->getContentSize();
     CCLOG("ContentSize: %f, %f", s.width, s.height);
 
-    // Array * pChildArray = map->getChildren();
-    // SpriteBatchNode * child = NULL;
-    // Object * pObject = NULL;
-    // CCARRAY_FOREACH(pChildArray, pObject)
-    // 	{
-    // 	    child = static_cast<SpriteBatchNode *>(pObject);
-    // 	    if (!child) break;
-    // 	    child->getTexture()->setAntiAliasTexParameters();
-    // 	}
-    // // map->runAction(ScaleBy::create(2, 0.1f));
-    // //    TMXLayer * layer = map->getLayer("background");
-
-    Camera * camera = map->getCamera();
+    CCCamera * camera = map->getCamera();
 
     float x, y, z;
-    map->setAnchorPoint(Point(0, 1));
+    // map->setAnchorPoint(CCPoint(0, 1));
     map->getCamera()->getEyeXYZ(&x, &y, &z);
-    // map->getCamera()->setEyeXYZ(x + s.height / 2, y, z - s.width / 2);
-    map->getLayer("collide")->setVisible(false);
 
-    TMXObjectGroup * group = map->getObjectGroup("trees");
-    Array * objects = group->getObjects();
+    map->getCamera()->locate();
+    
+//    map->getCamera()->setUpXYZ(1, 14, 1);
+    // map->layerNamed("collide")->setVisible(false);
+    // // map->getCamera()->setEyeXYZ(x + s.height / 2, y, z - s.width / 2);
+    // //    map->getLayer("collide")->setVisible(false);
 
-    CCDictionary * dict = NULL;
-    CCObject * pObj = NULL;
+    // CCTMXObjectGroup * group = map->objectGroupNamed("trees");
+    // CCArray * objects = group->getObjects();
 
-    CCARRAY_FOREACH(objects, pObj)
-	{
-	    dict = static_cast<CCDictionary *>(pObj);
-	    if (!dict) break;
-	    String * obj = static_cast<String *>(dict->objectForKey("gid"));
-	    CCLOG("NAME: %s", obj);
-	}
+    // CCDictionary * dict = NULL;
+    // CCObject * pObj = NULL;
 
-    map->setPosition(Point(0, 0 + visibleSize.height));
+    // CCARRAY_FOREACH(objects, pObj)
+    // {
+    //     dict = static_cast<CCDictionary *>(pObj);
+    //     if (!dict) break;
+    //     CCObject * o = NULL;
+    //     // CCARRAY_FOREACH(dict->allKeys(), o) {
+    //     //     CCString * s = static_cast<CCString *>(o);
+    //     //     CCLog("obj %s", s->getCString());
+    //     // }
+        
+    //     CCString * obj = static_cast<CCString *>(dict->objectForKey("gid"));
+    //     CCString * type = static_cast<CCString *>(dict->objectForKey("width"));
+    //     CCLog("GID: %s", type->getCString());
+    // }
+
+    map->setPosition(CCPoint(0, 0 + visibleSize.height));
 
 
-    CCLOG("X, Y, Z Coordinates: %f, %f, %f", x, y, z);
-    Size CC_UNUSED bounds = map->getBoundingBox().size;
+    //    CCLOG("X, Y, Z Coordinates: %f, %f, %f", x, y, z);
+    CCSize CC_UNUSED bounds = map->boundingBox().size;
     CCLOG("Bounding Box Size: %f, %f", bounds.width, bounds.height);
 
     setTouchEnabled(true);
@@ -90,22 +78,22 @@ bool GameScreen::init()
 //     CCLOG("TOUCHES BEGAN");
 // }
 
-void GameScreen::ccTouchesMoved(Set * touches, Event * event)
+void GameScreen::ccTouchesMoved(CCSet * touches, CCEvent * event)
 {
     CCLOG("TOUCHES MOVING");
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Size CC_UNUSED bounds = map->getBoundingBox().size;
-    Touch * touch = static_cast<Touch *>(touches->anyObject());
-    Point diff = touch->getDelta();
-    Node * node = getChildByTag(kTagTileMap);
-    Point current = node->getPosition();
-    Point next = current + diff;
+    CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
+    CCSize CC_UNUSED bounds = map->boundingBox().size;
+    CCTouch * touch = static_cast<CCTouch *>(touches->anyObject());
+    CCPoint diff = touch->getDelta();
+    CCNode * node = getChildByTag(kTagTileMap);
+    CCPoint current = node->getPosition();
+    CCPoint next = current + diff;
 
     if (next.x < 0 && next.y > visibleSize.height &&
 	next.x > -bounds.width && next.y < bounds.height - visibleSize.height)
-	{
-	    node->setPosition(current + diff);
-	}
+    {
+        node->setPosition(current + diff);
+    }
 
     CCLOG("X, Y Coordinates: %f, %f", current.x, current.y);
 }
@@ -115,9 +103,9 @@ void GameScreen::ccTouchesMoved(Set * touches, Event * event)
 //     CCLOG("TOUCH BEGAN");
 // }
 
-void GameScreen::menuCloseCallback(Object* pSender)
+void GameScreen::menuCloseCallback(CCObject* pSender)
 {
-    Director::getInstance()->end();
+    CCDirector::sharedDirector()->end();
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);

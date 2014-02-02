@@ -17,7 +17,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // initialize director
     CCDirector* director = CCDirector::sharedDirector();
     director->setOpenGLView(CCEGLView::sharedOpenGLView());
-
+    
     // turn on display FPS
     director->setDisplayStats(true);
 
@@ -28,7 +28,6 @@ bool AppDelegate::applicationDidFinishLaunching() {
     CCScene * scene = CCScene::create();
 
     GameScreen * gameScreen = GameScreen::create();
-
     scene->addChild(gameScreen);
 
     // run

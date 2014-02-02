@@ -20,14 +20,14 @@ bool GameScreen::init()
     addChild(map, 0, kTagTileMap);
 
     CCSize CC_UNUSED s = map->getContentSize();
-    CCLOG("ContentSize: %f, %f", s.width, s.height);
+    CCLog("ContentSize: %f, %f", s.width, s.height);
 
     CCCamera * camera = map->getCamera();
 
     float x, y, z;
     // map->setAnchorPoint(CCPoint(0, 1));
     map->getCamera()->getEyeXYZ(&x, &y, &z);
-
+    
     map->getCamera()->locate();
     
 //    map->getCamera()->setUpXYZ(1, 14, 1);
@@ -78,8 +78,7 @@ bool GameScreen::init()
 //     CCLOG("TOUCHES BEGAN");
 // }
 
-void GameScreen::ccTouchesMoved(CCSet * touches, CCEvent * event)
-{
+void GameScreen::ccTouchesMoved(CCSet * touches, CCEvent * event) {
     CCLOG("TOUCHES MOVING");
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
     CCSize CC_UNUSED bounds = map->boundingBox().size;

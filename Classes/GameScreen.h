@@ -10,8 +10,7 @@ USING_NS_CC;
 class GameScreen : public CCLayer
 {
  private:
-    enum
-    {
+    enum {
 	kTagTileMap = 1
     };
 

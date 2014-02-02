@@ -21,6 +21,7 @@ CXXFLAGS = -std=c++11 -g -Werror -fPIC -MMD
 INCLUDES += \
 	-I../ \
 	-I../Classes \
+	-I../Classes/utils \
 	-I$(COCOS_ROOT)/cocos2dx/base_nodes \
 	-I$(COCOS_ROOT)/CocosDenshion/include \
 	-I$(COCOS_ROOT)/extensions/ \

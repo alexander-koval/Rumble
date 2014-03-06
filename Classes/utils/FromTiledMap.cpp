@@ -1,4 +1,5 @@
 #include <functional>
+#include <array>
 #include "FromTiledMap.h"
 #include "tilemap_parallax_nodes/CCTMXXMLParser.h"
 
@@ -16,7 +17,7 @@ CCTMXTiledMap * FromTiledMap::parse(const char * tmxFile)
   CCTMXObjectGroup * group = map->objectGroupNamed("trees");
   CCArray* children = map->getChildren();
 
-  CCObject * childObject = NULL;
+  CCObject * childObject = nullptr;
   CCARRAY_FOREACH(children, childObject) {
     CCTMXLayer * child = static_cast<CCTMXLayer *>(childObject);
     CCLog("CHILD OF MAP, %s", child->getLayerName());

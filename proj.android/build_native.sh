@@ -1,4 +1,5 @@
 APPNAME="Rumble"
+NDK_ROOT=${ANDROID_NDK}
 
 # options
 

@@ -12,7 +12,7 @@ LOCAL_SRC_FILES := 	$(subst $(LOCAL_PATH)/,,$(wildcard $(LOCAL_PATH)/hellocpp/*.
 					$(subst $(LOCAL_PATH)/,,$(wildcard $(LOCAL_PATH)/../../Classes/*.cpp)) \
 					$(subst $(LOCAL_PATH)/,,$(wildcard $(LOCAL_PATH)/../../Classes/utils/*.cpp))
 				   				   
-$(info LOCAL: $(LOCAL_SRC_FILES))
+#$(info LOCAL: $(LOCAL_SRC_FILES))
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

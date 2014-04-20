@@ -1,6 +1,7 @@
 #include "AppDelegate.h"
 #include "SimpleAudioEngine.h"
 #include "GameScreen.h"
+#include "CCEGLView.h"
 
 USING_NS_CC;
 using namespace CocosDenshion;

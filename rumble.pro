@@ -3,11 +3,13 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-QMAKE_CC = clang
-QMAKE_CXX = clang++
+CCFLAGS += -Wno-unused-variable -Wno-unused-parameter -Wno-unused-function -Wno-return-type -Wno-ignored-qualifiers -Wno-type-limits -fPIC -MMD
+QMAKE_CFLAGS +=  $$CCFLAGS -Wno-implicit-function-declaration -Wno-reorder
+QMAKE_CXXFLAGS += $$CCFLAGS -std=c++11
+QMAKE_CFLAGS_DEBUG += $$QMAKE_CFLAGS -g3 -O0
+QMAKE_CXXFLAGS_DEBUG += $$QMAKE_CXXFLAGS -g3 -O0
 
-QMAKE_CXXFLAGS = -std=c++11 -Wall -g3 -O0 -Wno-ignored-qualifiers -fPIC -MMD
-QMAKE_CFLAGS = -Wall -g3 -O0 -Wno-ignored-qualifiers -fPIC -MMD
+QMAKE_LFLAGS += -Wl,--no-as-needed
 
 RUMBLE_RESOURCE_PATH += Resources
 
@@ -56,7 +58,7 @@ android {
         proj.android/AndroidManifest.xml
 }
 
-LIBS += -lGL -lglfw2 -lGLEW -lcurl -lfreetype -lfontconfig \
-         -ljpeg -lpng -ltiff -lwebp -lpthread \
-         -lcocos2dx -lCocosDenshion -lBox2D
+LIBS += -ljpeg -lpng -ltiff -lwebp -lcurl  \
+        -lcocos2dx -lCocosDenshion -lBox2D
+
 INCLUDEPATH += $${RUMBLE_INCLUDE_PATH}

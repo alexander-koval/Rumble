@@ -50,7 +50,7 @@ CCTMXTiledMap * FromTiledMap::parseFromXML(const char * tmxString, const char * 
   return NULL;
 }
 
-CCTMXTilesetInfo * FindTileset::operator ()(CCArray * tilesets, int gid) {
+CCTMXTilesetInfo * FindTileset::operator ()(CCArray * tilesets, unsigned int gid) {
     CCObject * tilesetObj = NULL;
     CCARRAY_FOREACH(tilesets, tilesetObj) {
         CCTMXTilesetInfo * tileset = static_cast<CCTMXTilesetInfo *>(tilesetObj);

@@ -13,7 +13,7 @@ bool GameScreen::init()
     }
 
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
-    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
+//    CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
 
     map = FromTiledMap::parse("tilemaps/testmap.tmx");
 //    map = CCTMXTiledMap::create("tilemaps/testmap.tmx");

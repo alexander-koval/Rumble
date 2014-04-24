@@ -1,13 +1,18 @@
+QT -= core gui
 TEMPLATE = app
 CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-QMAKE_CC = clang
-QMAKE_CXX = clang++
+CCFLAGS += -Wno-unused-variable -Wno-unused-parameter -Wno-unused-function -Wno-return-type -Wno-ignored-qualifiers -Wno-type-limits -fPIC -MMD
+QMAKE_CFLAGS +=  $$CCFLAGS -Wno-implicit-function-declaration -Wno-reorder
+QMAKE_CXXFLAGS += $$CCFLAGS -std=c++11
+QMAKE_CFLAGS_DEBUG += $$QMAKE_CFLAGS -g3 -O0
+QMAKE_CXXFLAGS_DEBUG += $$QMAKE_CXXFLAGS -g3 -O0
 
-QMAKE_CXXFLAGS = -std=c++11 -Wall -g3 -O0 -Wno-ignored-qualifiers -fPIC -MMD
-QMAKE_CFLAGS = -Wall -g3 -O0 -Wno-ignored-qualifiers -fPIC -MMD
+QMAKE_LFLAGS += -Wl,--no-as-needed
+
+RUMBLE_RESOURCE_PATH += Resources
 
 RUMBLE_INCLUDE_PATH += \
     ../cocos2dx/cocos2dx \
@@ -19,51 +24,59 @@ SOURCES += \
     Classes/AppDelegate.cpp \
     Classes/GameScreen.cpp \
     Classes/TMXRumbleTiledMap.cpp \
-    Classes/utils/FromTiledMap.cpp \
+    Classes/utils/FromTiledMap.cpp
+
 
 HEADERS += \
     Classes/AppDelegate.h \
     Classes/GameScreen.h \
     Classes/TMXRumbleTiledMap.h \
-    Classes/utils/FromTiledMap.h
+    Classes/utils/FromTiledMap.h \
+
+OTHER_FILES += \
+    Resources/GameScreen.png \
+    Resources/CloseNormal.png \
+    Resources/CloseSelected.png \
+    Resources/tilemaps/bush.png \
+    Resources/tilemaps/edge.png \
+    Resources/tilemaps/grave1.png \
+    Resources/tilemaps/rock.png \
+    Resources/tilemaps/ScreenSize.png \
+    Resources/tilemaps/tiles.png \
+    Resources/tilemaps/tree.png \
+    Resources/tilemaps/testmap.tmx \
+    Resources/fonts/Marker Felt.ttf
 
 unix:!mac:!android {
-    DEFINES += LINUX
-    DEFINES += DEBUG
-    LBITS = $$system(getconf LONG_BIT)
-    RUMBLE_INCLUDE_PATH += \
-        ../cocos2dx/cocos2dx/platform/linux
-
-    message(LINUX)
-    SOURCES += proj.linux/main.cpp
-
-    LIBS += -L/usr/lib
-    LIBS += -L/usr/local/lib \
-
-    contains(LBITS,64) {
-        LIBS += -L$$PWD/../cocos2dx/cocos2dx/platform/third_party/linux/libraries/lib64
-        LIBS += -L$$PWD/../cocos2dx/CocosDenshion/third_party/fmod/lib64/api/lib -lfmodex64
-    } else {
-        LIBS += -L$$PWD/../cocos2dx/cocos2dx/platform/third_party/linux/libraries
-        LIBS += -L$$PWD/../cocos2dx/CocosDenshion/third_party/fmod/api/lib -lfmodex
-    }
-    LIBS += -L$$OUT_PWD/../cocos2dx/cocos2dx \
-            -L$$OUT_PWD/../cocos2dx/CocosDenshion \
-            -L$$OUT_PWD/../cocos2dx/extensions \
-            -L$$OUT_PWD/../cocos2dx/external/Box2D \
-            -L$$OUT_PWD/../cocos2dx/external/chipmunk
-
-    LIBS +=  -lrt -lz -lX11
+    SOURCES += $$_PRO_FILE_PWD_/proj.linux/main.cpp
+    include(proj.linux/linux.pri)
 }
 
 android {
-    message(ANDROID)
-    RUMBLE_INCLUDE_PATH += \
-        ../cocos2dx/cocos2dx/platform/android
-
+    SOURCES += proj.android/jni/hellocpp/main.cpp
+    include(proj.android/android.pri)
+    OTHER_FILES += \
+        proj.android/AndroidManifest.xml \
+        proj.android/src/com/skincat/rumble/Rumble.java \
+        proj.android/src/org/cocos2dx/lib/Cocos2dxAccelerometer.java \
+        proj.android/src/org/cocos2dx/lib/Cocos2dxActivity.java \
+        proj.android/src/org/cocos2dx/lib/Cocos2dxBitmap.java \
+        proj.android/src/org/cocos2dx/lib/Cocos2dxEditBoxDialog.java \
+        proj.android/src/org/cocos2dx/lib/Cocos2dxEditText.java \
+        proj.android/src/org/cocos2dx/lib/Cocos2dxETCLoader.java \
+        proj.android/src/org/cocos2dx/lib/Cocos2dxGLSurfaceView.java \
+        proj.android/src/org/cocos2dx/lib/Cocos2dxHandler.java \
+        proj.android/src/org/cocos2dx/lib/Cocos2dxHelper.java \
+        proj.android/src/org/cocos2dx/lib/Cocos2dxLocalStorage.java \
+        proj.android/src/org/cocos2dx/lib/Cocos2dxMusic.java \
+        proj.android/src/org/cocos2dx/lib/Cocos2dxRenderer.java \
+        proj.android/src/org/cocos2dx/lib/Cocos2dxSound.java \
+        proj.android/src/org/cocos2dx/lib/Cocos2dxTextInputWraper.java \
+        proj.android/src/org/cocos2dx/lib/Cocos2dxTypefaces.java
 }
 
-LIBS += -lGL -lglfw2 -lGLEW -lcurl -lfreetype -lfontconfig \
-         -ljpeg -lpng -ltiff -lwebp -lpthread \
-         -lcocos2dx -lCocosDenshion -lBox2D
+LIBS += -lcocos2dx -lCocosDenshion -lBox2D
+
 INCLUDEPATH += $${RUMBLE_INCLUDE_PATH}
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/rumble/proj.android

@@ -37,7 +37,7 @@ class FromTiledMap {
 class FindTileset
 {
 public:
-    CCTMXTilesetInfo* operator ()(CCArray* tilesets, int gid);
+    CCTMXTilesetInfo* operator ()(CCArray* tilesets, unsigned int gid);
 };
 
 #endif // FROMTILEDMAP_H

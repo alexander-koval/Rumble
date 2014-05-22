@@ -1,0 +1,61 @@
+apply plugin: 'android'
+
+buildDir = new File(rootProject.projectDir, "../../build/android/" + rootProject.name)
+
+android {
+        compileSdkVersion 19
+        buildToolsVersion "19.1"
+        sourceSets {
+                  main {
+                      jniLibs.srcDir 'libs'
+                      manifest.srcFile 'AndroidManifest.xml'
+                      java.srcDirs = ['src']
+                      res.srcDirs = ['res']
+                      assets.srcDirs = ['assets']
+                  }
+        }
+
+        defaultConfig {
+                versionCode       1
+                versionName       "1.0"
+                minSdkVersion     14
+                targetSdkVersion  18
+        }
+
+        // productFlavors {
+        //     x86 {
+        //         ndk {
+        //             abiFilter "x86"
+        //         }
+        //     }
+        //     mips {
+        //         ndk {
+        //             abiFilter "mips"
+        //         }
+        //     }
+        //     armv7 {
+        //         ndk {
+        //             abiFilter "armeabi-v7a"
+        //         }
+        //     }
+        //     arm {
+        //         ndk {
+        //         abiFilter "armeabi"
+        //         }
+        //     }
+        //     fat
+        // }
+
+        lintOptions {
+                    abortOnError false
+        }
+}
+
+
+//buildTypes {
+//           runProguard false
+//           proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+//}
+
+
+       

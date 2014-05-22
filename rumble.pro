@@ -24,8 +24,7 @@ SOURCES += \
     Classes/AppDelegate.cpp \
     Classes/GameScreen.cpp \
     Classes/TMXRumbleTiledMap.cpp \
-    Classes/utils/FromTiledMap.cpp
-
+    Classes/utils/FromTiledMap.cpp \
 
 HEADERS += \
     Classes/AppDelegate.h \
@@ -46,6 +45,8 @@ OTHER_FILES += \
     Resources/tilemaps/tree.png \
     Resources/tilemaps/testmap.tmx \
     Resources/fonts/Marker Felt.ttf
+
+LIBS += -Wl,-Bstatic -lcocos2dx -lCocosDenshion -lBox2D
 
 unix:!mac:!android {
     SOURCES += $$_PRO_FILE_PWD_/proj.linux/main.cpp
@@ -76,7 +77,5 @@ android {
 
     ANDROID_PACKAGE_SOURCE_DIR = $$PWD/rumble/proj.android
 }
-
-LIBS += -lcocos2dx -lCocosDenshion -lBox2D
 
 INCLUDEPATH += $${RUMBLE_INCLUDE_PATH}

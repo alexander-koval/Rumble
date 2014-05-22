@@ -39,7 +39,7 @@ LIBS += -L$$OUT_PWD/../cocos2dx/cocos2dx \
         -L$$OUT_PWD/../cocos2dx/external/Box2D \
         -L$$OUT_PWD/../cocos2dx/external/chipmunk
 
-LIBS +=  -lrt -lz -lX11 -lGL -lglfw2 -lGLEW -lfreetype -lfontconfig -lpthread -ljpeg -lpng -ltiff -ljpeg -lpng -ltiff -lwebp -lcurl
+LIBS +=  -lrt -lz -lX11 -lGL -lglfw2 -lGLEW -lfreetype -lfontconfig -lpthread -ljpeg -lpng -ltiff -ljpeg15 -lpng15 -ltiff -lwebp -lcurl
 
 DESTDIR = $$_PRO_FILE_PWD_/../../bin/linux
 #    RESOURCE_COPY.target = .resources0

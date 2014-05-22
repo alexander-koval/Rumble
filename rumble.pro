@@ -73,10 +73,10 @@ android {
         proj.android/src/org/cocos2dx/lib/Cocos2dxSound.java \
         proj.android/src/org/cocos2dx/lib/Cocos2dxTextInputWraper.java \
         proj.android/src/org/cocos2dx/lib/Cocos2dxTypefaces.java
+
+    ANDROID_PACKAGE_SOURCE_DIR = $$PWD/rumble/proj.android
 }
 
 LIBS += -lcocos2dx -lCocosDenshion -lBox2D
 
 INCLUDEPATH += $${RUMBLE_INCLUDE_PATH}
-
-ANDROID_PACKAGE_SOURCE_DIR = $$PWD/rumble/proj.android

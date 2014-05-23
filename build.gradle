@@ -1,0 +1,19 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.10.2'
+    }
+}
+
+task wrapper(type:Wrapper) {
+    gradleVersion = '1.10'
+}
+
+subprojects {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
